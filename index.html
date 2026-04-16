@@ -1,66 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Examen de Seguridad</title>
+
+<style>
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    margin: 0;
+    padding: 0;
+  }
+
+  .contenedor {
+    max-width: 900px;
+    margin: 40px auto;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 14px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.35);
+  }
+
+  h1 {
+    text-align: center;
+    color: #003366;
+  }
+
+  .advertencia {
+    background: #fff3cd;
+    border-left: 6px solid #ffc107;
+    padding: 15px;
+    margin-bottom: 25px;
+    font-size: 15px;
+  }
+
+  .pregunta {
+    margin-bottom: 25px;
+  }
+
+  .pregunta h3 {
+    margin-bottom: 10px;
+    color: #333;
+  }
+
+  label {
+    display: block;
+    padding: 6px 0;
+    cursor: pointer;
+  }
+
+  input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+  }
+
+  button {
+    background: #0066cc;
+    border: none;
+    color: white;
+    padding: 14px 28px;
+    font-size: 18px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background: #004a99;
+  }
+
+  #bloqueado {
+    display: none;
+    background: #b00020;
+    color: white;
+    padding: 35px;
+    border-radius: 14px;
+    text-align: center;
+    font-size: 20px;
+    max-width: 900px;
+    margin: 60px auto;
+  }
+</style>
+</head>
+
+<body>
+
+<!-- ================= EXAMEN ================= -->
+<div class="contenedor" id="examen">
+  <h1>Examen de Seguridad – Contratistas</h1>
+
+  <div class="advertencia">
+    ⚠️ <strong>Importante:</strong><br>
+    No cambies de pestaña, no recargues la página y no cierres el navegador.
+    Cualquier acción indebida invalidará automáticamente el examen.
+  </div>
+
+  <div class="pregunta">
+    <h3>Nombre completo</h3>
+    <input type="text" id="nombre" placeholder="Escribe tu nombre">
+  </div>
+
+  <div class="pregunta">
+    <h3>1. ¿Cuál es el objetivo principal del EPP?</h3>
+    <label><input type="radio" name="p1"> Reducir riesgos laborales</label>
+    <label><input type="radio" name="p1"> Aumentar productividad</label>
+    <label><input type="radio" name="p1"> Cumplir horarios</label>
+  </div>
+
+  <div class="pregunta">
+    <h3>2. ¿Qué equipo es obligatorio en áreas operativas?</h3>
+    <label><input type="checkbox"> Casco</label>
+    <label><input type="checkbox"> Lentes de seguridad</label>
+    <label><input type="checkbox"> Botas con casquillo</label>
+  </div>
+
+  <div class="pregunta">
+    <h3>3. ¿Qué debes hacer ante un incidente?</h3>
+    <input type="text" placeholder="Escribe tu respuesta">
+  </div>
+
+  <button onclick="enviar()">Enviar examen</button>
+</div>
+
+<!-- ================= BLOQUEO VISIBLE ================= -->
+<div id="bloqueado">
+  🚫 <strong>EXAMEN BLOQUEADO</strong><br><br>
+  Se detectó un cambio de ventana o pestaña.<br>
+  Este evento fue registrado automáticamente.
+</div>
+
 <script>
 let bloqueado = false;
 let salidas = 0;
 
-/* ====== BLOQUEO POR CAMBIO DE PESTAÑA ====== */
+/* === BLOQUEO VISIBLE: CAMBIO DE PESTAÑA === */
 document.addEventListener("visibilitychange", () => {
   if (document.hidden && !bloqueado) {
     salidas++;
-    bloquearExamen("cambio_ventana");
+    bloquearExamen("cambio_ventana", true);
   }
 });
 
-/* ====== BLOQUEO POR TECLAS DE RECARGA ====== */
+/* === BLOQUEO SILENCIOSO: RECARGA TECLADO === */
 document.addEventListener("keydown", function (e) {
-  // F5
-  if (e.key === "F5") {
-    e.preventDefault();
-    bloquearExamen("recarga_f5");
-  }
-
-  // Ctrl + R / Cmd + R
-  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "r") {
-    e.preventDefault();
-    bloquearExamen("recarga_ctrl_r");
+  if (
+    e.key === "F5" ||
+    ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "r")
+  ) {
+    bloquearExamen("recarga_teclado", false);
   }
 });
 
-/* ====== INTENTO DE RECARGA / CERRAR ====== */
-window.addEventListener("beforeunload", function (e) {
+/* === BLOQUEO SILENCIOSO: BOTÓN RECARGAR / CERRAR === */
+window.addEventListener("beforeunload", function () {
   if (!bloqueado) {
-    bloquearExamen("recarga_navegador");
-    e.preventDefault();
-    e.returnValue = "";
+    bloquearExamen("recarga_navegador", false);
   }
 });
 
-/* ====== FUNCIÓN DE BLOQUEO ====== */
-function bloquearExamen(motivo) {
+/* === FUNCIÓN GENERAL DE BLOQUEO === */
+function bloquearExamen(motivo, mostrarMensaje) {
   if (bloqueado) return;
-
   bloqueado = true;
 
-  document.getElementById("examen").style.display = "none";
-  document.getElementById("bloqueado").style.display = "block";
-
   enviarDatos("bloqueado", motivo);
+
+  if (mostrarMensaje) {
+    document.getElementById("examen").style.display = "none";
+    document.getElementById("bloqueado").style.display = "block";
+  }
 }
 
-/* ====== ENVÍO NORMAL ====== */
+/* === ENVÍO NORMAL === */
 function enviar() {
   if (bloqueado) return;
   enviarDatos("terminado", "normal");
   alert("Examen enviado correctamente");
 }
 
-/* ====== ENVÍO A POWER AUTOMATE ====== */
+/* === ENVÍO A POWER AUTOMATE (OPCIONAL) === */
 function enviarDatos(estado, motivo) {
   fetch("PEGA_AQUI_TU_ENDPOINT_DE_POWER_AUTOMATE", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       nombre: document.getElementById("nombre").value || "Sin nombre",
-      examen: "EHSS Contratistas",
+      examen: "Seguridad Contratistas",
       estado: estado,
       motivo: motivo,
       salidas: salidas,
@@ -69,3 +194,6 @@ function enviarDatos(estado, motivo) {
   });
 }
 </script>
+
+</body>
+</html>
