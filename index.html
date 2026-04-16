@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Examen de Seguridad</title>
+
+<style>
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    margin: 0;
+    padding: 0;
+  }
+
+  .contenedor {
+    max-width: 800px;
+    margin: 40px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+  }
+
+  h1 {
+    text-align: center;
+    color: #003366;
+  }
+
+  .pregunta {
+    margin-bottom: 25px;
+  }
+
+  .pregunta h3 {
+    color: #333;
+  }
+
+  label {
+    display: block;
+    padding: 6px 0;
+    cursor: pointer;
+  }
+
+  input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+  }
+
+  button {
+    background: #0066cc;
+    border: none;
+    color: white;
+    padding: 12px 25px;
+    font-size: 18px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background: #004a99;
+  }
+
+  #bloqueado {
+    display: none;
+    background: #b00020;
+    color: white;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    font-size: 20px;
+  }
+
+  .advertencia {
+    background: #fff3cd;
+    border-left: 6px solid #ffc107;
+    padding: 15px;
+    margin-bottom: 20px;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="contenedor" id="examen">
+  <h1>Examen de Seguridad y EHSS</h1>
+
+  <div class="advertencia">
+    ⚠️ <strong>Advertencia:</strong>  
+    Si cambias de pestaña o ventana, el examen se bloqueará automáticamente.
+  </div>
+
+  <div class="pregunta">
+    <h3>Nombre completo:</h3>
+    <input type="text" id="nombre">
+  </div>
+
+  <div class="pregunta">
+    <h3>1. ¿Cuál es el principal objetivo del uso de EPP?</h3>
+    <label><input type="radio" name="p1" value="Reducir riesgos"> Reducir riesgos</label>
+    <label><input type="radio" name="p1" value="Evitar auditorías"> Evitar auditorías</label>
+    <label><input type="radio" name="p1" value="Cumplir horarios"> Cumplir horarios</label>
+  </div>
+
+  <div class="pregunta">
+    <h3>2. ¿Qué equipo es obligatorio en áreas de alto riesgo?</h3>
+    <label><input type="checkbox" value="Casco"> Casco</label>
+    <label><input type="checkbox" value="Lentes"> Lentes de seguridad</label>
+    <label><input type="checkbox" value="Chaleco reflejante"> Chaleco reflejante</label>
+  </div>
+
+  <div class="pregunta">
+    <h3>3. ¿Qué debes hacer ante un incidente?</h3>
+    <input type="text" id="p3" placeholder="Escribe tu respuesta">
+  </div>
+
+  <button onclick="enviar()">Enviar examen</button>
+</div>
+
+<div class="contenedor" id="bloqueado">
+  🚫 <strong>EXAMEN BLOQUEADO</strong><br><br>
+  Se detectó un cambio de ventana o pestaña.<br>
+  Este evento fue registrado automáticamente.
+</div>
+
+<script>
+let bloqueado = false;
+let salidas = 0;
+
+/* DETECCIÓN DE CAMBIO DE VENTANA */
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden && !bloqueado) {
+    salidas++;
+    bloquearExamen();
+  }
+});
+
+function bloquearExamen() {
+  bloqueado = true;
+  document.getElementById("examen").style.display = "none";
+  document.getElementById("bloqueado").style.display = "block";
+
+  enviarDatos("bloqueado");
+}
+
+function enviar() {
+  if (bloqueado) return;
+  enviarDatos("terminado");
+  alert("Examen enviado correctamente");
+}
+
+/* ENVÍO A POWER AUTOMATE */
+function enviarDatos(estado) {
+  fetch("PEGA_AQUI_TU_ENDPOINT_DE_POWER_AUTOMATE", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      nombre: document.getElementById("nombre").value,
+      examen: "EHSS Contratistas",
+      salidas: salidas,
+      estado: estado,
+      fecha: new Date().toISOString()
+    })
+  });
+}
+</script>
+
+</body>
+</html>
