@@ -5,194 +5,101 @@
 <title>Examen de Seguridad</title>
 
 <style>
-  body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-    margin: 0;
-    padding: 0;
-  }
-
-  .contenedor {
-    max-width: 900px;
-    margin: 40px auto;
-    background: #ffffff;
-    padding: 30px;
-    border-radius: 14px;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.35);
-  }
-
-  h1 {
-    text-align: center;
-    color: #003366;
-  }
-
-  .advertencia {
-    background: #fff3cd;
-    border-left: 6px solid #ffc107;
-    padding: 15px;
-    margin-bottom: 25px;
-  }
-
-  .pregunta {
-    margin-bottom: 25px;
-  }
-
-  label {
-    display: block;
-    padding: 6px 0;
-  }
-
-  input[type="text"] {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-  }
-
-  button {
-    background: #0066cc;
-    border: none;
-    color: white;
-    padding: 14px 28px;
-    font-size: 18px;
-    border-radius: 8px;
-    cursor: pointer;
-  }
-
-  button:hover {
-    background: #004a99;
-  }
-
-  #bloqueado {
-    display: none;
-    background: #b00020;
-    color: white;
-    padding: 40px;
-    border-radius: 14px;
-    text-align: center;
-    font-size: 20px;
-    max-width: 900px;
-    margin: 60px auto;
-  }
-
-  #advertenciaCambio {
-    display: none;
-    background: #fff3cd;
-    border-left: 6px solid #ff9800;
-    padding: 15px;
-    margin-bottom: 20px;
-    font-weight: bold;
-  }
+body{
+  font-family:Segoe UI,Arial,sans-serif;
+  background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+  margin:0;padding:0;
+}
+.contenedor{
+  max-width:900px;margin:40px auto;
+  background:white;padding:30px;border-radius:14px;
+}
+h1{text-align:center;color:#003366;}
+.pregunta{margin-bottom:20px;}
+#bloqueado{display:none;background:#b00020;color:white;padding:40px;text-align:center;border-radius:14px;}
+#adWarning{display:none;background:#fff3cd;border-left:6px solid #ff9800;padding:15px;margin-bottom:15px;}
 </style>
 </head>
 
 <body>
 
 <div class="contenedor" id="examen">
-  <h1>Examen de Seguridad – Contratistas</h1>
+<h1>Examen de Seguridad – Contratistas</h1>
 
-  <div id="advertenciaCambio">
-    ⚠️ ADVERTENCIA:<br>
-    Se detectó un cambio de pestaña.<br>
-    **Al segundo intento el examen se bloqueará automáticamente.**
-  </div>
+<div id="adWarning">
+⚠️ ADVERTENCIA:  
+No cambies de pestaña. Al segundo intento el examen se bloqueará.
+</div>
 
-  <div class="pregunta">
-    <h3>Nombre completo</h3>
-    <input type="text" id="nombre">
-  </div>
+<div class="pregunta">
+<h3>Nombre completo</h3>
+<input type="text" id="nombre">
+</div>
 
-  <div class="pregunta">
-    <h3>1. ¿Cuál es el objetivo del EPP?</h3>
-    <label><input type="radio" name="p1"> Reducir riesgos</label>
-    <label><input type="radio" name="p1"> Acelerar procesos</label>
-  </div>
+<div id="preguntas">
+<div class="pregunta">¿Objetivo del EPP?<br><input></div>
+<div class="pregunta">Equipo obligatorio<br><input></div>
+<div class="pregunta">¿Qué hacer ante un incidente?<br><input></div>
+</div>
 
-  <div class="pregunta">
-    <h3>2. ¿Qué es obligatorio en área operativa?</h3>
-    <label><input type="checkbox"> Casco</label>
-    <label><input type="checkbox"> Lentes</label>
-    <label><input type="checkbox"> Botas</label>
-  </div>
-
-  <div class="pregunta">
-    <h3>3. ¿Qué hacer ante un incidente?</h3>
-    <input type="text">
-  </div>
-
-  <button onclick="enviar()">Enviar examen</button>
+<button onclick="enviar()">Enviar</button>
 </div>
 
 <div id="bloqueado">
-  🚫 <strong>EXAMEN BLOQUEADO</strong><br><br>
-  Se detectó una acción no permitida.<br>
-  El progreso fue eliminado y el intento quedó registrado.
+🚫 <strong>EXAMEN BLOQUEADO</strong><br><br>
+Tu intento fue registrado y el examen quedó invalidado.
 </div>
 
 <script>
-let bloqueado = false;
-let cambiosVentana = 0;
+let cambios = sessionStorage.getItem("cambiosVentana") ? Number(sessionStorage.getItem("cambiosVentana")) : 0;
+let bloqueado = sessionStorage.getItem("bloqueado") === "true";
 
-/* ===== CAMBIO DE PESTAÑA ===== */
-document.addEventListener("visibilitychange", () => {
-  if (document.hidden && !bloqueado) {
-    cambiosVentana++;
+/* ---- SHUFFLE PREGUNTAS (excepto nombre) ---- */
+function mezclarPreguntas(){
+  const cont=document.getElementById("preguntas");
+  [...cont.children].sort(()=>Math.random()-0.5).forEach(e=>cont.appendChild(e));
+}
 
-    if (cambiosVentana === 1) {
-      document.getElementById("advertenciaCambio").style.display = "block";
-    } else if (cambiosVentana >= 2) {
-      bloquearExamen("segundo_cambio_ventana");
+/* ---- BLOQUEO SI YA ESTABA BLOQUEADO ---- */
+if(bloqueado){
+  document.getElementById("examen").style.display="none";
+  document.getElementById("bloqueado").style.display="block";
+}else{
+  mezclarPreguntas();
+}
+
+/* ---- CAMBIO DE PESTAÑA ---- */
+document.addEventListener("visibilitychange",()=>{
+  if(document.hidden&&!bloqueado){
+    cambios++;
+    sessionStorage.setItem("cambiosVentana", cambios);
+    if(cambios===1){
+      document.getElementById("adWarning").style.display="block";
+    }
+    if(cambios>=2){
+      bloquear("doble_cambio_ventana");
     }
   }
 });
 
-/* ===== RECARGA = BLOQUEO INMEDIATO ===== */
-document.addEventListener("keydown", e => {
-  if (
-    e.key === "F5" ||
-    ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "r")
-  ) {
-    bloquearExamen("recarga_teclado");
+/* ---- RECARGA = BLOQUEO TOTAL ---- */
+window.addEventListener("beforeunload",()=>{
+  if(!bloqueado){
+    sessionStorage.setItem("bloqueado","true");
   }
 });
 
-window.addEventListener("beforeunload", () => {
-  if (!bloqueado) {
-    bloquearExamen("recarga_navegador");
-  }
-});
-
-/* ===== BLOQUEO TOTAL ===== */
-function bloquearExamen(motivo) {
-  if (bloqueado) return;
-  bloqueado = true;
-
-  // borrar progreso
-  document.getElementById("examen").innerHTML = "";
-  document.getElementById("bloqueado").style.display = "block";
-
-  enviarDatos("bloqueado", motivo);
+/* ---- BLOQUEO DEFINITIVO ---- */
+function bloquear(motivo){
+  sessionStorage.setItem("bloqueado","true");
+  document.getElementById("examen").style.display="none";
+  document.getElementById("bloqueado").style.display="block";
 }
 
-/* ===== ENVÍO ===== */
-function enviar() {
-  if (bloqueado) return;
-  enviarDatos("terminado", "normal");
-  alert("Examen enviado correctamente");
-}
-
-/* ===== ENVÍO BACKEND ===== */
-function enviarDatos(estado, motivo) {
-  fetch("PEGA_AQUI_TU_ENDPOINT_DE_POWER_AUTOMATE", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      nombre: document.getElementById("nombre")?.value || "",
-      estado: estado,
-      motivo: motivo,
-      cambiosVentana: cambiosVentana,
-      fecha: new Date().toISOString()
-    })
-  });
+/* ---- ENVÍO ---- */
+function enviar(){
+  if(sessionStorage.getItem("bloqueado")==="true")return;
+  alert("Examen enviado");
 }
 </script>
 
