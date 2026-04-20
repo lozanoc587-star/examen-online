@@ -12,7 +12,7 @@ body {
   padding: 0;
 }
 
-/* ===== BLOQUEAR SELECCIÓN ===== */
+/* ===== BLOQUEO DE SELECCIÓN ===== */
 * {
   user-select: none;
 }
@@ -102,17 +102,17 @@ No cambies de pestaña nuevamente o el examen será bloqueado.
 </div>
 
 <div class="pregunta">
-<strong>Compañía para la que trabaja</strong><br>
+<strong>Empresa para la que trabaja</strong><br>
 <input type="text" id="empresa" required>
 </div>
 
 <div class="pregunta">
-<strong>Puesto / actividad que realiza</strong><br>
+<strong>Puesto / actividad</strong><br>
 <input type="text" id="puesto" required>
 </div>
 
 <div class="pregunta">
-<strong>Trabajos que realiza (puede seleccionar varios)</strong>
+<strong>Trabajos que realiza</strong>
 <div class="checkbox-group">
   <label><input type="checkbox" value="Alturas"> Trabajos en alturas</label>
   <label><input type="checkbox" value="Electricidad"> Electricidad</label>
@@ -124,7 +124,7 @@ No cambies de pestaña nuevamente o el examen será bloqueado.
 </div>
 </div>
 
-<!-- ===== PREGUNTAS ===== -->
+<!-- ===== EXAMEN ===== -->
 <div class="seccion">
 <h2>Examen</h2>
 
@@ -151,6 +151,14 @@ let recargas = Number(sessionStorage.getItem("recargas") || 0);
 let cambiosVentana = Number(sessionStorage.getItem("cambiosVentana") || 0);
 let capturas = Number(sessionStorage.getItem("capturas") || 0);
 let bloqueado = sessionStorage.getItem("bloqueado") === "true";
+let alertaActiva = false;
+
+/* ===== ALERTA SEGURA ===== */
+function mostrarAlerta(mensaje) {
+  alertaActiva = true;
+  alert(mensaje);
+  setTimeout(() => alertaActiva = false, 300);
+}
 
 /* ===== MEZCLAR PREGUNTAS ===== */
 function mezclarPreguntas() {
@@ -172,7 +180,10 @@ document.addEventListener("visibilitychange", () => {
     cambiosVentana++;
     sessionStorage.setItem("cambiosVentana", cambiosVentana);
     document.body.style.filter = "blur(10px)";
-    cambiosVentana === 1 ? document.getElementById("adVentana").style.display = "block" : bloquear();
+
+    cambiosVentana === 1
+      ? document.getElementById("adVentana").style.display = "block"
+      : bloquear();
   } else {
     document.body.style.filter = "none";
   }
@@ -180,10 +191,12 @@ document.addEventListener("visibilitychange", () => {
 
 /* ===== POSIBLE SCREENSHOT ===== */
 window.addEventListener("blur", () => {
-  if (!bloqueado) {
+  if (!bloqueado && !alertaActiva) {
     capturas++;
     sessionStorage.setItem("capturas", capturas);
-    capturas === 1 ? alert("⚠️ Posible captura detectada") : bloquear();
+    capturas === 1
+      ? mostrarAlerta("⚠️ ADVERTENCIA: Posible captura detectada.")
+      : bloquear();
   }
 });
 
@@ -216,13 +229,15 @@ function bloquear() {
 document.addEventListener("contextmenu", e => e.preventDefault());
 ["copy","cut","paste"].forEach(ev => document.addEventListener(ev, e => e.preventDefault()));
 document.addEventListener("keydown", e => {
-  if ((e.ctrlKey || e.metaKey) && ["c","x","v","u","s","p"].includes(e.key.toLowerCase())) e.preventDefault();
+  if ((e.ctrlKey || e.metaKey) && ["c","x","v","u","s","p"].includes(e.key.toLowerCase())) {
+    e.preventDefault();
+  }
 });
 
 /* ===== ENVÍO ===== */
 function enviar() {
   if (sessionStorage.getItem("bloqueado") === "true") return;
-  alert("Examen enviado correctamente");
+  mostrarAlerta("✅ Examen enviado correctamente");
 }
 </script>
 
