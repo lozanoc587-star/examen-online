@@ -12,14 +12,12 @@ body {
   padding: 0;
 }
 
-/* ===== BLOQUEO DE SELECCIÓN ===== */
+/* ===== BLOQUEAR SELECCIÓN ===== */
 * {
   user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
 }
 
-input {
+input, textarea {
   user-select: text;
 }
 
@@ -31,13 +29,24 @@ input {
   border-radius: 14px;
 }
 
-h1 {
+h1, h2 {
   text-align: center;
   color: #003366;
 }
 
 .pregunta {
   margin-bottom: 20px;
+}
+
+.seccion {
+  border-bottom: 2px solid #ddd;
+  margin-bottom: 25px;
+  padding-bottom: 20px;
+}
+
+.checkbox-group label {
+  display: block;
+  margin-bottom: 6px;
 }
 
 #adRecarga, #adVentana {
@@ -83,16 +92,48 @@ Si recargas nuevamente, el examen se bloqueará.
 No cambies de pestaña nuevamente o el examen será bloqueado.
 </div>
 
+<!-- ===== DATOS PERSONALES ===== -->
+<div class="seccion">
+<h2>Datos del Participante</h2>
+
 <div class="pregunta">
-<h3>Nombre completo</h3>
-<input type="text" id="nombre">
+<strong>Nombre completo</strong><br>
+<input type="text" id="nombre" required>
 </div>
+
+<div class="pregunta">
+<strong>Compañía para la que trabaja</strong><br>
+<input type="text" id="empresa" required>
+</div>
+
+<div class="pregunta">
+<strong>Puesto / actividad que realiza</strong><br>
+<input type="text" id="puesto" required>
+</div>
+
+<div class="pregunta">
+<strong>Trabajos que realiza (puede seleccionar varios)</strong>
+<div class="checkbox-group">
+  <label><input type="checkbox" value="Alturas"> Trabajos en alturas</label>
+  <label><input type="checkbox" value="Electricidad"> Electricidad</label>
+  <label><input type="checkbox" value="Espacios confinados"> Espacios confinados</label>
+  <label><input type="checkbox" value="Soldadura"> Soldadura</label>
+  <label><input type="checkbox" value="Maquinaria pesada"> Maquinaria pesada</label>
+  <label><input type="checkbox" value="Otro"> Otro</label>
+</div>
+</div>
+</div>
+
+<!-- ===== PREGUNTAS ===== -->
+<div class="seccion">
+<h2>Examen</h2>
 
 <div id="preguntas">
   <div class="pregunta">¿Objetivo del EPP?<br><input></div>
   <div class="pregunta">Equipo obligatorio<br><input></div>
   <div class="pregunta">¿Qué hacer ante un incidente?<br><input></div>
   <div class="pregunta">¿A quién reportar un accidente?<br><input></div>
+</div>
 </div>
 
 <button onclick="enviar()">Enviar examen</button>
@@ -114,9 +155,7 @@ let bloqueado = sessionStorage.getItem("bloqueado") === "true";
 /* ===== MEZCLAR PREGUNTAS ===== */
 function mezclarPreguntas() {
   let cont = document.getElementById("preguntas");
-  [...cont.children]
-    .sort(() => Math.random() - 0.5)
-    .forEach(p => cont.appendChild(p));
+  [...cont.children].sort(() => Math.random() - 0.5).forEach(p => cont.appendChild(p));
 }
 
 /* ===== ESTADO INICIAL ===== */
@@ -132,14 +171,8 @@ document.addEventListener("visibilitychange", () => {
   if (document.hidden && !bloqueado) {
     cambiosVentana++;
     sessionStorage.setItem("cambiosVentana", cambiosVentana);
-
     document.body.style.filter = "blur(10px)";
-
-    if (cambiosVentana === 1) {
-      document.getElementById("adVentana").style.display = "block";
-    } else {
-      bloquear();
-    }
+    cambiosVentana === 1 ? document.getElementById("adVentana").style.display = "block" : bloquear();
   } else {
     document.body.style.filter = "none";
   }
@@ -150,12 +183,7 @@ window.addEventListener("blur", () => {
   if (!bloqueado) {
     capturas++;
     sessionStorage.setItem("capturas", capturas);
-
-    if (capturas === 1) {
-      alert("⚠️ ADVERTENCIA: Se detectó una posible captura de pantalla.");
-    } else {
-      bloquear();
-    }
+    capturas === 1 ? alert("⚠️ Posible captura detectada") : bloquear();
   }
 });
 
@@ -164,46 +192,31 @@ window.addEventListener("beforeunload", () => {
   if (!bloqueado) {
     recargas++;
     sessionStorage.setItem("recargas", recargas);
-
-    if (recargas === 1) {
-      sessionStorage.setItem("mostrarAvisoRecarga", "true");
-    } else {
-      sessionStorage.setItem("bloqueado", "true");
-    }
+    recargas === 1
+      ? sessionStorage.setItem("mostrarAvisoRecarga", "true")
+      : sessionStorage.setItem("bloqueado", "true");
   }
 });
 
-/* ===== REGRESO DE RECARGA ===== */
-if (sessionStorage.getItem("mostrarAvisoRecarga") === "true") {
+if (sessionStorage.getItem("mostrarAvisoRecarga")) {
   document.getElementById("adRecarga").style.display = "block";
   sessionStorage.removeItem("mostrarAvisoRecarga");
 }
 
-if (sessionStorage.getItem("bloqueado") === "true") {
-  bloquear();
-}
+if (sessionStorage.getItem("bloqueado") === "true") bloquear();
 
-/* ===== BLOQUEO FINAL ===== */
+/* ===== BLOQUEO ===== */
 function bloquear() {
   sessionStorage.setItem("bloqueado", "true");
   document.getElementById("examen").style.display = "none";
   document.getElementById("bloqueado").style.display = "block";
 }
 
-/* ===== BLOQUEOS ADICIONALES ===== */
+/* ===== BLOQUEOS ===== */
 document.addEventListener("contextmenu", e => e.preventDefault());
-
-document.addEventListener("copy", e => e.preventDefault());
-document.addEventListener("cut", e => e.preventDefault());
-document.addEventListener("paste", e => e.preventDefault());
-
+["copy","cut","paste"].forEach(ev => document.addEventListener(ev, e => e.preventDefault()));
 document.addEventListener("keydown", e => {
-  if (
-    (e.ctrlKey || e.metaKey) &&
-    ["c","x","v","u","s","p"].includes(e.key.toLowerCase())
-  ) {
-    e.preventDefault();
-  }
+  if ((e.ctrlKey || e.metaKey) && ["c","x","v","u","s","p"].includes(e.key.toLowerCase())) e.preventDefault();
 });
 
 /* ===== ENVÍO ===== */
