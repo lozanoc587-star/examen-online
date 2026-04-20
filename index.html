@@ -26,11 +26,9 @@ h1,h2{ text-align:center; color:#003366 }
 .pregunta{ margin-bottom:15px }
 .checkbox-group label{ display:block }
 
-/* OCULTOS */
 #paginaExamen{ display:none }
 #timer{ display:none }
 
-/* MENSAJES INTERNOS */
 #mensaje{
   display:none;
   background:#fff3cd;
@@ -40,7 +38,6 @@ h1,h2{ text-align:center; color:#003366 }
   margin-bottom:15px;
 }
 
-/* BLOQUEO */
 #bloqueado{
   display:none;
   background:#b00020;
@@ -71,7 +68,7 @@ button:disabled{
 <div id="timer">Tiempo restante: <span id="time">60:00</span></div>
 <div id="mensaje"></div>
 
-<!-- ================= PÁGINA 1 ================= -->
+<!-- ===== PÁGINA 1 ===== -->
 <div id="paginaDatos">
 <h2>Datos del participante</h2>
 
@@ -93,7 +90,7 @@ Trabajos que realiza
 <button onclick="irAExamen()">Siguiente</button>
 </div>
 
-<!-- ================= PÁGINA 2 ================= -->
+<!-- ===== PÁGINA 2 ===== -->
 <div id="paginaExamen">
 <h2>Examen</h2>
 
@@ -113,86 +110,99 @@ El intento fue invalidado y registrado.
 </div>
 
 <script>
-/* ============ CONFIGURACIÓN ============ */
-const FLOW_URL = "https://default94c3e67c9e2d4800a6b7635d978821.65.environment.api.powerplatform.com/powerautomate/automations/direct/workflows/40132eb2e0774af688b5576da3fa4601/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=SrRwsU9wbBGwQ5vvR7Uc0DYnHBaPeIRS5OfitDOlYw4";
+/* ==== CONFIG ==== */
+const FLOW_URL = "PEGA_AQUI_TU_URL_DE_POWER_AUTOMATE";
 const TOKEN_EXAMEN = "EHSS-SEGURIDAD-2026";
 
-/* ============ VARIABLES ============ */
-let tiempo = 3600;              // ⏱️ 1 HORA
+/* ==== VARIABLES ==== */
+let tiempo = 3600;        // ⏱️ 1 hora
 let timerActivo = false;
 let advertencias = 0;
 let bloqueado = false;
-let examenEnviado = false;      // 🚫 PROTECCIÓN CLAVE
+let examenEnviado = false;
 
-/* ============ CRONÓMETRO ============ */
+/* >>> CLAVE PARA EVITAR DOBLE CONTEO <<< */
+let cambioEnProceso = false;
+
+/* ==== CRONÓMETRO ==== */
 setInterval(()=>{
   if(!timerActivo || bloqueado) return;
 
   tiempo--;
-  const min = Math.floor(tiempo / 60);
+  const min = Math.floor(tiempo/60);
   const seg = tiempo % 60;
-  document.getElementById("time").textContent = `${min}:${String(seg).padStart(2,"0")}`;
+  time.textContent = `${min}:${String(seg).padStart(2,"0")}`;
 
   if(tiempo <= 0){
     bloquear("Tiempo agotado");
   }
 },1000);
 
-/* ============ MENSAJES INTERNOS ============ */
+/* ==== MENSAJES INTERNOS ==== */
 function mostrarMensaje(texto){
   mensaje.style.display = "block";
   mensaje.textContent = texto;
 }
 
-/* ============ NAVEGACIÓN ============ */
+/* ==== NAVEGACIÓN ==== */
 function irAExamen(){
   if(!nombre.value || !empresa.value || !puesto.value){
     mostrarMensaje("⚠️ Complete todos los datos antes de continuar");
     return;
   }
 
-  mensaje.style.display = "none";
-  paginaDatos.style.display = "none";
-  paginaExamen.style.display = "block";
-  timer.style.display = "block";
+  mensaje.style.display="none";
+  paginaDatos.style.display="none";
+  paginaExamen.style.display="block";
+  timer.style.display="block";
   timerActivo = true;
 }
 
-/* ============ ANTI‑TRAMPA ============ */
+/* ==== ANTI-TRAMPA CORREGIDO ==== */
 document.addEventListener("visibilitychange",()=>{
-  if(document.hidden) registrarFalta("Cambio de pestaña o aplicación");
+  if(document.hidden && !bloqueado){
+    cambioEnProceso = true;
+    registrarFalta("Cambio de pestaña o aplicación");
+
+    setTimeout(()=>{
+      cambioEnProceso = false;
+    },500);
+  }
 });
 
 window.addEventListener("blur",()=>{
+  if(bloqueado) return;
+  if(cambioEnProceso) return;   // ✅ evita conteo doble
   registrarFalta("Posible captura de pantalla");
 });
 
+/* ==== BLOQUEAR COPIA ==== */
 ["copy","cut","paste","contextmenu"].forEach(ev=>{
-  document.addEventListener(ev, e => e.preventDefault());
+  document.addEventListener(ev,e=>e.preventDefault());
 });
 
-/* ============ FALTAS ============ */
+/* ==== FALTAS ==== */
 function registrarFalta(motivo){
-  if(bloqueado) return;
   advertencias++;
-  mostrarMensaje(`⚠️ Advertencia (${advertencias}/2): ${motivo}`);
+  mostrarMensaje(`⚠️ Advertencia ${advertencias}/2: ${motivo}`);
+
   if(advertencias >= 2){
     bloquear(motivo);
   }
 }
 
-/* ============ BLOQUEO ============ */
+/* ==== BLOQUEO ==== */
 function bloquear(motivo){
-  if(examenEnviado) return;   // 🔒 EVITA DOBLE ENVÍO
+  if(examenEnviado) return;
   bloqueado = true;
-  examen.style.display = "none";
-  document.getElementById("bloqueado").style.display = "block";
+  examen.style.display="none";
+  document.getElementById("bloqueado").style.display="block";
   enviar(true, motivo);
 }
 
-/* ============ ENVÍO (ÚNICO) ============ */
+/* ==== ENVÍO ÚNICO ==== */
 function enviar(esBloqueo=false, motivo=""){
-  if(examenEnviado) return;   // 🔥 CLAVE FINAL
+  if(examenEnviado) return;
   examenEnviado = true;
 
   document.getElementById("btnEnviar").disabled = true;
@@ -223,4 +233,3 @@ function enviar(esBloqueo=false, motivo=""){
 
 </body>
 </html>
-``
