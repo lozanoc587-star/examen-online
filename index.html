@@ -7,7 +7,7 @@
 <style>
 body{font-family:Arial;background:#f4f6f8;margin:0}
 *{user-select:none}
-input{user-select:text}
+input,textarea{user-select:text}
 
 .contenedor{
   max-width:1200px;
@@ -26,7 +26,7 @@ h1,h2,h3{color:#003366}
 .examen-trabajo{
   border:2px solid #ddd;
   padding:25px;
-  margin-bottom:30px;
+  margin-bottom:35px;
   border-radius:12px;
   background:#fafafa;
 }
@@ -61,11 +61,9 @@ h1,h2,h3{color:#003366}
 <!-- ================= DATOS ================= -->
 <div id="datos" class="seccion" style="display:block">
 <h2>Datos del participante</h2>
-
-<div class="pregunta">Nombre completo<br><input id="nombre"></div>
+<div class="pregunta">Nombre<br><input id="nombre"></div>
 <div class="pregunta">Empresa<br><input id="empresa"></div>
 <div class="pregunta">Puesto<br><input id="puesto"></div>
-
 <button onclick="irATrabajos()">Continuar</button>
 </div>
 
@@ -73,23 +71,23 @@ h1,h2,h3{color:#003366}
 <div id="trabajos" class="seccion">
 <h2>Seleccione los trabajos que realiza</h2>
 
-<label><input type="checkbox" value="Alturas"> Trabajos en Alturas</label>
-<label><input type="checkbox" value="Izajes"> Izajes</label>
-<label><input type="checkbox" value="Confinados"> Espacios Confinados</label>
-<label><input type="checkbox" value="Excavaciones"> Excavaciones</label>
-<label><input type="checkbox" value="Quimicos"> Sustancias Químicas</label>
-<label><input type="checkbox" value="Soldadura"> Corte y Soldadura</label>
+<label><input type="checkbox" value="Alturas"> Trabajos en Alturas</label><br>
+<label><input type="checkbox" value="Izajes"> Izajes</label><br>
+<label><input type="checkbox" value="Confinados"> Espacios Confinados</label><br>
+<label><input type="checkbox" value="Excavaciones"> Excavaciones</label><br>
+<label><input type="checkbox" value="Quimicos"> Sustancias Químicas</label><br>
+<label><input type="checkbox" value="Soldadura"> Corte y Soldadura</label><br>
 
-<br><br>
+<br>
 <button onclick="irAExamen()">Iniciar examen</button>
 </div>
 
-<!-- ================= EXAMEN ================= -->
+<!-- ================= EXÁMENES ================= -->
 <div id="examen" class="seccion">
 
-<!-- ================= ALTURAS ================= -->
+<!-- ===== TRABAJOS EN ALTURA ===== -->
 <div class="examen-trabajo" data-trabajo="Alturas">
-<h3>Trabajos en Alturas</h3>
+<h3>Trabajos en Altura</h3>
 
 <div class="pregunta">
 1. Margen mínimo requerido de caída:
@@ -112,7 +110,7 @@ h1,h2,h3{color:#003366}
 </div>
 
 <div class="pregunta">
-3. Distancia mínima de restricción NOM‑009‑STPS:
+3. Distancia mínima en sistemas de restricción NOM-009-STPS:
 <div class="opciones">
 <label><input type="radio" name="alt3">1.5 m</label>
 <label><input type="radio" name="alt3">2 m</label>
@@ -122,7 +120,7 @@ h1,h2,h3{color:#003366}
 </div>
 
 <div class="pregunta">
-4. Sujeción del andamio cada:
+4. Sujeción de andamios cada:
 <div class="opciones">
 <label><input type="radio" name="alt4">2 m</label>
 <label><input type="radio" name="alt4">4 m</label>
@@ -130,24 +128,44 @@ h1,h2,h3{color:#003366}
 <label><input type="radio" name="alt4">3 m</label>
 </div>
 </div>
+
+<div class="pregunta">
+5. Ancho mínimo y separación máxima de tablones:
+<div class="opciones">
+<label><input type="radio" name="alt5">45 cm y 2.5 cm</label>
+<label><input type="radio" name="alt5">25 cm y 4.5 cm</label>
+<label><input type="radio" name="alt5">55 cm y 2.5 cm</label>
+<label><input type="radio" name="alt5">45 cm y 2 cm</label>
+</div>
 </div>
 
-<!-- ================= IZAJES ================= -->
+<div class="pregunta">
+6. Escalera sobresaliente del andamio:
+<div class="opciones">
+<label><input type="radio" name="alt6">50 cm</label>
+<label><input type="radio" name="alt6">80 cm</label>
+<label><input type="radio" name="alt6">90 cm</label>
+<label><input type="radio" name="alt6">1 m</label>
+</div>
+</div>
+</div>
+
+<!-- ===== IZAJES ===== -->
 <div class="examen-trabajo" data-trabajo="Izajes">
 <h3>Izajes</h3>
 
 <div class="pregunta">
-1. Acción correcta antes de autorizar izaje:
+1. Acción antes de autorizar un izaje:
 <div class="opciones">
 <label><input type="radio" name="iz1">Proceder directamente</label>
-<label><input type="radio" name="iz1">Usar grúa más pequeña</label>
+<label><input type="radio" name="iz1">Usar otra grúa</label>
 <label><input type="radio" name="iz1">Reducir velocidad</label>
 <label><input type="radio" name="iz1">Verificar condiciones de seguridad</label>
 </div>
 </div>
 
 <div class="pregunta">
-2. Configuración de eslinga con mayor capacidad:
+2. Configuración con mayor capacidad:
 <div class="opciones">
 <label><input type="radio" name="iz2">Vertical</label>
 <label><input type="radio" name="iz2">Canasta</label>
@@ -167,7 +185,7 @@ h1,h2,h3{color:#003366}
 </div>
 </div>
 
-<!-- ================= CONFINADOS ================= -->
+<!-- ===== ESPACIOS CONFINADOS ===== -->
 <div class="examen-trabajo" data-trabajo="Confinados">
 <h3>Espacios Confinados</h3>
 
@@ -182,22 +200,32 @@ h1,h2,h3{color:#003366}
 </div>
 
 <div class="pregunta">
-2. Voltaje máximo permitido:
+2. Voltaje máximo permitido en luminarias:
 <div class="opciones">
-<label><input type="radio" name="con2">12V</label>
-<label><input type="radio" name="con2">14V</label>
-<label><input type="radio" name="con2">24V</label>
-<label><input type="radio" name="con2">32V</label>
+<label><input type="radio" name="con2">12 V</label>
+<label><input type="radio" name="con2">14 V</label>
+<label><input type="radio" name="con2">24 V</label>
+<label><input type="radio" name="con2">32 V</label>
+</div>
+</div>
+
+<div class="pregunta">
+3. Tipo de espacio confinado descrito:
+<div class="opciones">
+<label><input type="radio" name="con3">Tipo A</label>
+<label><input type="radio" name="con3">Tipo I</label>
+<label><input type="radio" name="con3">Tipo C</label>
+<label><input type="radio" name="con3">Tipo II</label>
 </div>
 </div>
 </div>
 
-<!-- ================= EXCAVACIONES ================= -->
+<!-- ===== EXCAVACIONES ===== -->
 <div class="examen-trabajo" data-trabajo="Excavaciones">
 <h3>Excavaciones</h3>
 
 <div class="pregunta">
-1. Distancia máxima para escalera:
+1. Distancia máxima para colocar escalera:
 <div class="opciones">
 <label><input type="radio" name="exc1">7 m</label>
 <label><input type="radio" name="exc1">9 m</label>
@@ -207,7 +235,7 @@ h1,h2,h3{color:#003366}
 </div>
 
 <div class="pregunta">
-2. Distancia de acopio:
+2. Distancia para acopio de tierra:
 <div class="opciones">
 <label><input type="radio" name="exc2">2.5 m</label>
 <label><input type="radio" name="exc2">3 m</label>
@@ -215,24 +243,44 @@ h1,h2,h3{color:#003366}
 <label><input type="radio" name="exc2">2 m</label>
 </div>
 </div>
+
+<div class="pregunta">
+3. Profundidad para estabilizar muros:
+<div class="opciones">
+<label><input type="radio" name="exc3">1.30 m</label>
+<label><input type="radio" name="exc3">1.50 m</label>
+<label><input type="radio" name="exc3">1.20 m</label>
+<label><input type="radio" name="exc3">1.40 m</label>
+</div>
+</div>
 </div>
 
-<!-- ================= QUÍMICOS ================= -->
+<!-- ===== SUSTANCIAS QUÍMICAS ===== -->
 <div class="examen-trabajo" data-trabajo="Quimicos">
 <h3>Sustancias Químicas</h3>
 
 <div class="pregunta">
-1. Clasificación SGA:
+1. Clasificación del SGA:
 <div class="opciones">
-<label><input type="radio" name="qui1">Físicos, químicos y biológicos</label>
+<label><input type="radio" name="qui1">Físicos, químicos, biológicos</label>
 <label><input type="radio" name="qui1">Físico, salud o ambiente</label>
-<label><input type="radio" name="qui1">Químicos y mecánicos</label>
+<label><input type="radio" name="qui1">Operativos</label>
 <label><input type="radio" name="qui1">Ambientales</label>
+</div>
+</div>
+
+<div class="pregunta">
+2. Norma del SGA:
+<div class="opciones">
+<label><input type="radio" name="qui2">NOM-010-2014</label>
+<label><input type="radio" name="qui2">NOM-018-2016</label>
+<label><input type="radio" name="qui2">NOM-005-1998</label>
+<label><input type="radio" name="qui2">NOM-018-2015</label>
 </div>
 </div>
 </div>
 
-<!-- ================= SOLDADURA ================= -->
+<!-- ===== SOLDADURA ===== -->
 <div class="examen-trabajo" data-trabajo="Soldadura">
 <h3>Corte y Soldadura</h3>
 
@@ -240,9 +288,19 @@ h1,h2,h3{color:#003366}
 1. Definición de líquido inflamable:
 <div class="opciones">
 <label><input type="radio" name="sol1">Líquido combustible</label>
-<label><input type="radio" name="sol1">Gas inflamable</label>
 <label><input type="radio" name="sol1">Gas pirofórico</label>
+<label><input type="radio" name="sol1">Gas inflamable</label>
 <label><input type="radio" name="sol1">Líquido inflamable</label>
+</div>
+</div>
+
+<div class="pregunta">
+2. Distancia máxima de evacuación:
+<div class="opciones">
+<label><input type="radio" name="sol2">30 m / 4 min</label>
+<label><input type="radio" name="sol2">50 m / 6 min</label>
+<label><input type="radio" name="sol2">70 m / 5 min</label>
+<label><input type="radio" name="sol2">40 m / 3 min</label>
 </div>
 </div>
 </div>
@@ -254,11 +312,11 @@ h1,h2,h3{color:#003366}
 
 <div id="bloqueado">
 🚫 <strong>EXAMEN BLOQUEADO</strong><br><br>
-Se detectaron 2 intentos de salida.
+Se detectaron dos intentos de salida.
 </div>
 
 <script>
-let advertencias=0, examenActivo=false, ultimo=0;
+let advertencias=0, examenActivo=false, ultimoEvento=0;
 
 function mostrarMensaje(t){mensaje.style.display="block";mensaje.textContent=t;}
 
@@ -268,12 +326,12 @@ function irATrabajos(){
 }
 
 function irAExamen(){
-  const sel=[...document.querySelectorAll('input[type=checkbox]:checked')].map(c=>c.value);
-  if(sel.length===0){mostrarMensaje("Seleccione trabajos");return;}
+  const seleccionados=[...document.querySelectorAll('input[type=checkbox]:checked')].map(c=>c.value);
+  if(seleccionados.length===0){mostrarMensaje("Seleccione trabajos");return;}
 
-  document.querySelectorAll(".examen-trabajo").forEach(d=>d.style.display="none");
-  sel.forEach(t=>{
-    document.querySelectorAll(`[data-trabajo="${t}"]`).forEach(d=>d.style.display="block");
+  document.querySelectorAll(".examen-trabajo").forEach(e=>e.style.display="none");
+  seleccionados.forEach(t=>{
+    document.querySelectorAll(`[data-trabajo="${t}"]`).forEach(e=>e.style.display="block");
   });
 
   trabajos.style.display="none";
@@ -282,9 +340,9 @@ function irAExamen(){
 }
 
 function registrarFalta(m){
-  const now=Date.now();
-  if(now-ultimo<800) return;
-  ultimo=now;
+  const ahora=Date.now();
+  if(ahora-ultimoEvento<800)return;
+  ultimoEvento=ahora;
   advertencias++;
   mostrarMensaje(`Advertencia ${advertencias}/2: ${m}`);
   if(advertencias>=2){
@@ -293,13 +351,8 @@ function registrarFalta(m){
   }
 }
 
-document.addEventListener("visibilitychange",()=>{
-  if(document.hidden && examenActivo) registrarFalta("Cambio de pestaña");
-});
-window.addEventListener("blur",()=>{
-  if(examenActivo) registrarFalta("Salida del navegador");
-});
-
+document.addEventListener("visibilitychange",()=>{if(document.hidden&&examenActivo)registrarFalta("Cambio de pestaña");});
+window.addEventListener("blur",()=>{if(examenActivo)registrarFalta("Salida del navegador");});
 ["copy","cut","paste","contextmenu"].forEach(e=>document.addEventListener(e,ev=>ev.preventDefault()));
 </script>
 
