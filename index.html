@@ -10,7 +10,7 @@ body{font-family:Arial;background:#f4f6f8;margin:0}
 input,textarea{user-select:text}
 
 .contenedor{
-  max-width:1200px;
+  max-width:1300px;
   margin:30px auto;
   background:#fff;
   padding:30px;
@@ -54,7 +54,6 @@ h1,h2,h3{color:#003366}
 <body>
 
 <div class="contenedor" id="contenedor">
-
 <h1>Exámenes de Seguridad – Contratistas</h1>
 <div id="mensaje"></div>
 
@@ -70,14 +69,12 @@ h1,h2,h3{color:#003366}
 <!-- ================= TRABAJOS ================= -->
 <div id="trabajos" class="seccion">
 <h2>Seleccione los trabajos que realiza</h2>
-
 <label><input type="checkbox" value="Alturas"> Trabajos en Alturas</label><br>
 <label><input type="checkbox" value="Izajes"> Izajes</label><br>
 <label><input type="checkbox" value="Confinados"> Espacios Confinados</label><br>
 <label><input type="checkbox" value="Excavaciones"> Excavaciones</label><br>
 <label><input type="checkbox" value="Quimicos"> Sustancias Químicas</label><br>
 <label><input type="checkbox" value="Soldadura"> Corte y Soldadura</label><br>
-
 <br>
 <button onclick="irAExamen()">Iniciar examen</button>
 </div>
@@ -85,227 +82,342 @@ h1,h2,h3{color:#003366}
 <!-- ================= EXÁMENES ================= -->
 <div id="examen" class="seccion">
 
-<!-- ===== TRABAJOS EN ALTURA ===== -->
+<!-- ================= ALTURAS ================= -->
 <div class="examen-trabajo" data-trabajo="Alturas">
-<h3>Trabajos en Altura</h3>
+<h3>Trabajos en Alturas</h3>
 
-<div class="pregunta">
-1. Margen mínimo requerido de caída:
+<div class="pregunta">1. Análisis de distancia mínima de caída:
 <div class="opciones">
 <label><input type="radio" name="alt1">5.56 m</label>
 <label><input type="radio" name="alt1">5.28 m</label>
 <label><input type="radio" name="alt1">5.47 m</label>
 <label><input type="radio" name="alt1">5.33 m</label>
-</div>
-</div>
+</div></div>
 
-<div class="pregunta">
-2. Capacidad mínima de un punto fijo seguro:
+<div class="pregunta">2. Capacidad de punto fijo:
 <div class="opciones">
 <label><input type="radio" name="alt2">3000 lb/f</label>
 <label><input type="radio" name="alt2">5000 lb/f</label>
 <label><input type="radio" name="alt2">4000 lb/f</label>
 <label><input type="radio" name="alt2">7000 lb/f</label>
-</div>
-</div>
+</div></div>
 
-<div class="pregunta">
-3. Distancia mínima en sistemas de restricción NOM-009-STPS:
+<div class="pregunta">3. Distancia mínima de restricción:
 <div class="opciones">
 <label><input type="radio" name="alt3">1.5 m</label>
 <label><input type="radio" name="alt3">2 m</label>
 <label><input type="radio" name="alt3">1.3 m</label>
 <label><input type="radio" name="alt3">1.2 m</label>
-</div>
-</div>
+</div></div>
 
-<div class="pregunta">
-4. Sujeción de andamios cada:
+<div class="pregunta">4. Sujeción del andamio cada:
 <div class="opciones">
 <label><input type="radio" name="alt4">2 m</label>
 <label><input type="radio" name="alt4">4 m</label>
 <label><input type="radio" name="alt4">5 m</label>
 <label><input type="radio" name="alt4">3 m</label>
-</div>
-</div>
+</div></div>
 
-<div class="pregunta">
-5. Ancho mínimo y separación máxima de tablones:
+<div class="pregunta">5. Ancho mínimo y separación máxima:
 <div class="opciones">
 <label><input type="radio" name="alt5">45 cm y 2.5 cm</label>
 <label><input type="radio" name="alt5">25 cm y 4.5 cm</label>
 <label><input type="radio" name="alt5">55 cm y 2.5 cm</label>
 <label><input type="radio" name="alt5">45 cm y 2 cm</label>
-</div>
-</div>
+</div></div>
 
-<div class="pregunta">
-6. Escalera sobresaliente del andamio:
+<div class="pregunta">6. Escalera sobresaliente del andamio:
 <div class="opciones">
 <label><input type="radio" name="alt6">50 cm</label>
 <label><input type="radio" name="alt6">80 cm</label>
 <label><input type="radio" name="alt6">90 cm</label>
 <label><input type="radio" name="alt6">1 m</label>
-</div>
-</div>
+</div></div>
 </div>
 
-<!-- ===== IZAJES ===== -->
+<!-- ================= IZAJES (10 preguntas) ================= -->
 <div class="examen-trabajo" data-trabajo="Izajes">
 <h3>Izajes</h3>
 
-<div class="pregunta">
-1. Acción antes de autorizar un izaje:
+<div class="pregunta">1. Acción antes de autorizar izaje:
 <div class="opciones">
 <label><input type="radio" name="iz1">Proceder directamente</label>
-<label><input type="radio" name="iz1">Usar otra grúa</label>
+<label><input type="radio" name="iz1">Usar grúa menor</label>
 <label><input type="radio" name="iz1">Reducir velocidad</label>
 <label><input type="radio" name="iz1">Verificar condiciones de seguridad</label>
-</div>
-</div>
+</div></div>
 
-<div class="pregunta">
-2. Configuración con mayor capacidad:
+<div class="pregunta">2. Configuración de eslinga con mayor capacidad:
 <div class="opciones">
 <label><input type="radio" name="iz2">Vertical</label>
 <label><input type="radio" name="iz2">Canasta</label>
 <label><input type="radio" name="iz2">Estrangulada</label>
 <label><input type="radio" name="iz2">Diagonal</label>
-</div>
-</div>
+</div></div>
 
-<div class="pregunta">
-3. Efecto de reducir el ángulo de la eslinga:
+<div class="pregunta">3. Efecto de reducir el ángulo:
 <div class="opciones">
 <label><input type="radio" name="iz3">Aumenta capacidad</label>
 <label><input type="radio" name="iz3">Disminuye tensión</label>
 <label><input type="radio" name="iz3">Aumenta tensión</label>
 <label><input type="radio" name="iz3">No afecta</label>
-</div>
-</div>
+</div></div>
+
+<div class="pregunta">4. Verificación del limit switch:
+<div class="opciones">
+<label><input type="radio" name="iz4">Subir hasta detener</label>
+<label><input type="radio" name="iz4">Enrollar tambor</label>
+<label><input type="radio" name="iz4">Desmontar</label>
+<label><input type="radio" name="iz4">Probar en carga máxima</label>
+</div></div>
+
+<div class="pregunta">5. Porcentaje de uso de capacidad:
+<div class="opciones">
+<label><input type="radio" name="iz5">23.3% y 32.3%</label>
+<label><input type="radio" name="iz5">25% y 35%</label>
+<label><input type="radio" name="iz5">20% y 30%</label>
+<label><input type="radio" name="iz5">22% y 31%</label>
+</div></div>
+
+<div class="pregunta">6. ¿Qué es un plan de izaje?
+<div class="opciones">
+<label><input type="radio" name="iz6">Documento de peso</label>
+<label><input type="radio" name="iz6">Procedimiento detallado</label>
+<label><input type="radio" name="iz6">Registro mantenimiento</label>
+<label><input type="radio" name="iz6">Checklist de eslingas</label>
+</div></div>
+
+<div class="pregunta">7. Función del maniobrista:
+<div class="opciones">
+<label><input type="radio" name="iz7">Operar grúa</label>
+<label><input type="radio" name="iz7">Guiar operador</label>
+<label><input type="radio" name="iz7">Mantenimiento</label>
+<label><input type="radio" name="iz7">Calcular carga</label>
+</div></div>
+
+<div class="pregunta">8. Certificación por tercero:
+<div class="opciones">
+<label><input type="radio" name="iz8">Revisión del operador</label>
+<label><input type="radio" name="iz8">Inspección independiente</label>
+<label><input type="radio" name="iz8">Manual fabricante</label>
+<label><input type="radio" name="iz8">Uso previo</label>
+</div></div>
+
+<div class="pregunta">9. Función de cuerda de venteo:
+<div class="opciones">
+<label><input type="radio" name="iz9">Reducir peso</label>
+<label><input type="radio" name="iz9">Controlar orientación</label>
+<label><input type="radio" name="iz9">Línea de vida</label>
+<label><input type="radio" name="iz9">Asegurar gancho</label>
+</div></div>
+
+<div class="pregunta">10. Criterio para eslinga:
+<div class="opciones">
+<label><input type="radio" name="iz10">Color</label>
+<label><input type="radio" name="iz10">Capacidad WLL</label>
+<label><input type="radio" name="iz10">Longitud</label>
+<label><input type="radio" name="iz10">Uso previo</label>
+</div></div>
 </div>
 
-<!-- ===== ESPACIOS CONFINADOS ===== -->
+<!-- ================= CONFINADOS (6) ================= -->
 <div class="examen-trabajo" data-trabajo="Confinados">
 <h3>Espacios Confinados</h3>
 
-<div class="pregunta">
-1. Inflamabilidad máxima permitida:
+<div class="pregunta">1. Inflamabilidad máxima:
 <div class="opciones">
 <label><input type="radio" name="con1">5%</label>
 <label><input type="radio" name="con1">10%</label>
 <label><input type="radio" name="con1">15%</label>
 <label><input type="radio" name="con1">20%</label>
-</div>
-</div>
+</div></div>
 
-<div class="pregunta">
-2. Voltaje máximo permitido en luminarias:
+<div class="pregunta">2. Voltaje máximo luminarias:
 <div class="opciones">
 <label><input type="radio" name="con2">12 V</label>
 <label><input type="radio" name="con2">14 V</label>
 <label><input type="radio" name="con2">24 V</label>
 <label><input type="radio" name="con2">32 V</label>
-</div>
-</div>
+</div></div>
 
-<div class="pregunta">
-3. Tipo de espacio confinado descrito:
+<div class="pregunta">3. Tipo de espacio confinado:
 <div class="opciones">
 <label><input type="radio" name="con3">Tipo A</label>
 <label><input type="radio" name="con3">Tipo I</label>
 <label><input type="radio" name="con3">Tipo C</label>
 <label><input type="radio" name="con3">Tipo II</label>
-</div>
-</div>
+</div></div>
+
+<div class="pregunta">4. Monitoreo en cisterna:
+<div class="opciones">
+<label><input type="radio" name="con4">Entrada</label>
+<label><input type="radio" name="con4">Inferior</label>
+<label><input type="radio" name="con4">Media</label>
+<label><input type="radio" name="con4">Todas</label>
+</div></div>
+
+<div class="pregunta">5. Niveles de O2 permitidos:
+<div class="opciones">
+<label><input type="radio" name="con5">19.0-23.0</label>
+<label><input type="radio" name="con5">16.5-24.5</label>
+<label><input type="radio" name="con5">19.5-23.0</label>
+<label><input type="radio" name="con5">19.5-23.5</label>
+</div></div>
+
+<div class="pregunta">6. Espacio con riesgo inmediato:
+<div class="opciones">
+<label><input type="radio" name="con6">Tipo C</label>
+<label><input type="radio" name="con6">Tipo II</label>
+<label><input type="radio" name="con6">Tipo A</label>
+<label><input type="radio" name="con6">Tipo I</label>
+</div></div>
 </div>
 
-<!-- ===== EXCAVACIONES ===== -->
+<!-- ================= EXCAVACIONES (6) ================= -->
 <div class="examen-trabajo" data-trabajo="Excavaciones">
 <h3>Excavaciones</h3>
 
-<div class="pregunta">
-1. Distancia máxima para colocar escalera:
+<div class="pregunta">1. Distancia máxima para escalera:
 <div class="opciones">
 <label><input type="radio" name="exc1">7 m</label>
 <label><input type="radio" name="exc1">9 m</label>
 <label><input type="radio" name="exc1">4 m</label>
 <label><input type="radio" name="exc1">6 m</label>
-</div>
-</div>
+</div></div>
 
-<div class="pregunta">
-2. Distancia para acopio de tierra:
+<div class="pregunta">2. Distancia de acopio:
 <div class="opciones">
 <label><input type="radio" name="exc2">2.5 m</label>
 <label><input type="radio" name="exc2">3 m</label>
 <label><input type="radio" name="exc2">1.5 m</label>
 <label><input type="radio" name="exc2">2 m</label>
-</div>
-</div>
+</div></div>
 
-<div class="pregunta">
-3. Profundidad para estabilizar muros:
+<div class="pregunta">3. Profundidad para estabilizar:
 <div class="opciones">
 <label><input type="radio" name="exc3">1.30 m</label>
 <label><input type="radio" name="exc3">1.50 m</label>
 <label><input type="radio" name="exc3">1.20 m</label>
 <label><input type="radio" name="exc3">1.40 m</label>
-</div>
-</div>
+</div></div>
+
+<div class="pregunta">4. Señalización perimetral:
+<div class="opciones">
+<label><input type="radio" name="exc4">Barrera rígida</label>
+<label><input type="radio" name="exc4">Cinta</label>
+<label><input type="radio" name="exc4">No necesario</label>
+<label><input type="radio" name="exc4">Opcional</label>
+</div></div>
+
+<div class="pregunta">5. Inclinación del talud:
+<div class="opciones">
+<label><input type="radio" name="exc5">(34°)</label>
+<label><input type="radio" name="exc5">(90°)</label>
+<label><input type="radio" name="exc5">(53°)</label>
+<label><input type="radio" name="exc5">(34°)</label>
+</div></div>
+
+<div class="pregunta">6. Tipos de suelo NOM-031:
+<div class="opciones">
+<label><input type="radio" name="exc6">5</label>
+<label><input type="radio" name="exc6">2</label>
+<label><input type="radio" name="exc6">4</label>
+<label><input type="radio" name="exc6">3</label>
+</div></div>
 </div>
 
-<!-- ===== SUSTANCIAS QUÍMICAS ===== -->
+<!-- ================= QUÍMICOS (3) ================= -->
 <div class="examen-trabajo" data-trabajo="Quimicos">
 <h3>Sustancias Químicas</h3>
 
-<div class="pregunta">
-1. Clasificación del SGA:
+<div class="pregunta">1. Clasificación SGA:
 <div class="opciones">
-<label><input type="radio" name="qui1">Físicos, químicos, biológicos</label>
+<label><input type="radio" name="qui1">Físicos, químicos y biológicos</label>
 <label><input type="radio" name="qui1">Físico, salud o ambiente</label>
-<label><input type="radio" name="qui1">Operativos</label>
+<label><input type="radio" name="qui1">Químicos</label>
 <label><input type="radio" name="qui1">Ambientales</label>
-</div>
-</div>
+</div></div>
 
-<div class="pregunta">
-2. Norma del SGA:
+<div class="pregunta">2. Pictogramas de peligros físicos:
 <div class="opciones">
-<label><input type="radio" name="qui2">NOM-010-2014</label>
-<label><input type="radio" name="qui2">NOM-018-2016</label>
-<label><input type="radio" name="qui2">NOM-005-1998</label>
-<label><input type="radio" name="qui2">NOM-018-2015</label>
-</div>
-</div>
+<label><input type="radio" name="qui2">6,1,3,8</label>
+<label><input type="radio" name="qui2">4,5,1,2</label>
+<label><input type="radio" name="qui2">1,5,2,3</label>
+<label><input type="radio" name="qui2">6,3,5,2</label>
+</div></div>
+
+<div class="pregunta">3. Norma del SGA:
+<div class="opciones">
+<label><input type="radio" name="qui3">NOM-010-2014</label>
+<label><input type="radio" name="qui3">NOM-018-2016</label>
+<label><input type="radio" name="qui3">NOM-005-1998</label>
+<label><input type="radio" name="qui3">NOM-018-2015</label>
+</div></div>
 </div>
 
-<!-- ===== SOLDADURA ===== -->
+<!-- ================= SOLDADURA (7) ================= -->
 <div class="examen-trabajo" data-trabajo="Soldadura">
 <h3>Corte y Soldadura</h3>
 
-<div class="pregunta">
-1. Definición de líquido inflamable:
+<div class="pregunta">1. Definición de líquido inflamable:
 <div class="opciones">
 <label><input type="radio" name="sol1">Líquido combustible</label>
 <label><input type="radio" name="sol1">Gas pirofórico</label>
 <label><input type="radio" name="sol1">Gas inflamable</label>
 <label><input type="radio" name="sol1">Líquido inflamable</label>
-</div>
-</div>
+</div></div>
 
-<div class="pregunta">
-2. Distancia máxima de evacuación:
+<div class="pregunta">2. Distancia y tiempo de evacuación:
 <div class="opciones">
 <label><input type="radio" name="sol2">30 m / 4 min</label>
 <label><input type="radio" name="sol2">50 m / 6 min</label>
 <label><input type="radio" name="sol2">70 m / 5 min</label>
 <label><input type="radio" name="sol2">40 m / 3 min</label>
-</div>
-</div>
+</div></div>
+
+<div class="pregunta">3. Definición de líquido combustible:
+<div class="opciones">
+<label><input type="radio" name="sol3">Líquido combustible</label>
+<label><input type="radio" name="sol3">Gas pirofórico</label>
+<label><input type="radio" name="sol3">Gas inflamable</label>
+<label><input type="radio" name="sol3">Líquido inflamable</label>
+</div></div>
+
+<div class="pregunta">4. Distancia de extintor ABC:
+<div class="opciones">
+<label><input type="radio" name="sol4">7 m</label>
+<label><input type="radio" name="sol4">5 m</label>
+<label><input type="radio" name="sol4">10 m</label>
+<label><input type="radio" name="sol4">3 m</label>
+</div></div>
+
+<div class="pregunta">5. Radio libre de materiales combustibles:
+<div class="opciones">
+<label><input type="radio" name="sol5">7 m</label>
+<label><input type="radio" name="sol5">5 m</label>
+<label><input type="radio" name="sol5">10 m</label>
+<label><input type="radio" name="sol5">3 m</label>
+</div></div>
+
+<div class="pregunta">6. Temperatura flama acetileno:
+<div class="opciones">
+<label><input type="radio" name="sol6">2300 °C</label>
+<label><input type="radio" name="sol6">3200 °C</label>
+<label><input type="radio" name="sol6">2900 °C</label>
+<label><input type="radio" name="sol6">3100 °C</label>
+</div></div>
+
+<div class="pregunta">7. Distancia cilindros O2 y acetileno:
+<div class="opciones">
+<label><input type="radio" name="sol7">3 a 10 m</label>
+<label><input type="radio" name="sol7">5 a 10 m</label>
+<label><input type="radio" name="sol7">7 a 10 m</label>
+<label><input type="radio" name="sol7">8 a 10 m</label>
+</div></div>
 </div>
 
-<button onclick="alert('Examen listo para Power Automate')">Enviar examen</button>
+<button onclick="alert('Listo para conectar con Power Automate')">Enviar examen</button>
+
 </div>
 
 </div>
@@ -318,19 +430,29 @@ Se detectaron dos intentos de salida.
 <script>
 let advertencias=0, examenActivo=false, ultimoEvento=0;
 
-function mostrarMensaje(t){mensaje.style.display="block";mensaje.textContent=t;}
+function mostrarMensaje(t){
+  mensaje.style.display="block";
+  mensaje.textContent=t;
+}
 
 function irATrabajos(){
-  if(!nombre.value||!empresa.value||!puesto.value){mostrarMensaje("Complete los datos");return;}
-  datos.style.display="none";trabajos.style.display="block";
+  if(!nombre.value||!empresa.value||!puesto.value){
+    mostrarMensaje("Complete los datos");
+    return;
+  }
+  datos.style.display="none";
+  trabajos.style.display="block";
 }
 
 function irAExamen(){
-  const seleccionados=[...document.querySelectorAll('input[type=checkbox]:checked')].map(c=>c.value);
-  if(seleccionados.length===0){mostrarMensaje("Seleccione trabajos");return;}
+  const sel=[...document.querySelectorAll('input[type=checkbox]:checked')].map(c=>c.value);
+  if(sel.length===0){
+    mostrarMensaje("Seleccione trabajos");
+    return;
+  }
 
   document.querySelectorAll(".examen-trabajo").forEach(e=>e.style.display="none");
-  seleccionados.forEach(t=>{
+  sel.forEach(t=>{
     document.querySelectorAll(`[data-trabajo="${t}"]`).forEach(e=>e.style.display="block");
   });
 
@@ -351,10 +473,15 @@ function registrarFalta(m){
   }
 }
 
-document.addEventListener("visibilitychange",()=>{if(document.hidden&&examenActivo)registrarFalta("Cambio de pestaña");});
-window.addEventListener("blur",()=>{if(examenActivo)registrarFalta("Salida del navegador");});
+document.addEventListener("visibilitychange",()=>{
+  if(document.hidden && examenActivo) registrarFalta("Cambio de pestaña");
+});
+window.addEventListener("blur",()=>{
+  if(examenActivo) registrarFalta("Salida del navegador");
+});
 ["copy","cut","paste","contextmenu"].forEach(e=>document.addEventListener(e,ev=>ev.preventDefault()));
 </script>
 
 </body>
 </html>
+
